@@ -1,0 +1,22 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df= pd.read_csv('Data.csv')
+
+df1 = df[['Player Names', 'Goals', 'Year']].copy()
+df1.sort_values(by="Goals", ascending=False, inplace=True)
+
+
+gols_jogadores = df1.groupby("Player Names")["Goals"].sum().reset_index()
+
+Top10_MaisGols = gols_jogadores.nlargest(10, 'Goals')
+print(Top10_MaisGols)
+
+plt.figure(figsize=(20, 8))
+plt.bar(Top10_MaisGols['Player Names'], Top10_MaisGols['Goals'])
+
+plt.xlabel('Jogadores')
+plt.ylabel('Total de Gols')
+plt.title('Top 10 Jogadores com mais gols entre 2016-2020')
+plt.yticks(range(0, 201, 10))
+plt.show()
